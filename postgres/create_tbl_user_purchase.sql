@@ -7,7 +7,8 @@ delivery_method TEXT CHECK (delivery_method IN ('pickup','delivery')),
 menu_items VARCHAR(200),
 invoice_date date,
 tax NUMERIC(5,5),
-total NUMERIC CHECK(total > 0),
+total NUMERIC CHECK(total >= 0),
 country_code_iso3 char(3) DEFAULT NULL,
 customer_id int NOT NULL
 );
+
