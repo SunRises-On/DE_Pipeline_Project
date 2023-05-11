@@ -28,9 +28,20 @@ with dag:
     extract_user_purchase_data = PostgresOperator(
         dag=dag,
         task_id="extract_user_purchase_data",
-        sql="./scripts/sql/unload_user_purchase.sql",
-        postgres_conn_id="postgres_default",
-        params={"user_purchase": "/temp/user_purchase.csv"},
+        #put in plugin folder
+        sql="./opt/airflow/plugins/scripts/sql/unload_user_purchase.sql",
+        #created postgres connection in Admin>
+        #Connection Type = Postgres
+        #inorder for docker ran in airflow to connect to localhost use
+        # host.docker.internal
+        #Host = host.docker.internal
+        #Schema = DE
+        #Login = postgres
+        #Password = password
+        #Port = 5432
+        postgres_conn_id="postgres_local",
+        params={"user_purchase": "/temp/user_purchase.csv",
+                "begin_date":"","end_date":""},
         depends_on_past=True,
         wait_for_downstream=True,
     )
