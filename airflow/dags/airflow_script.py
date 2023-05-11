@@ -28,8 +28,8 @@ with dag:
     extract_user_purchase_data = PostgresOperator(
         dag=dag,
         task_id="extract_user_purchase_data",
-        #put in plugin folder
-        sql="./opt/airflow/plugins/scripts/sql/unload_user_purchase.sql",
+        #its in dag folder
+        sql="sql/unload_user_purchase.sql",
         #created postgres connection in Admin>
         #Connection Type = Postgres
         #inorder for docker ran in airflow to connect to localhost use
@@ -40,8 +40,7 @@ with dag:
         #Password = password
         #Port = 5432
         postgres_conn_id="postgres_local",
-        params={"user_purchase": "/temp/user_purchase.csv",
-                "begin_date":"","end_date":""},
+        params={"user_purchase": "/temp/user_purchase.csv","begin_date":"01/01/2023","end_date":"04/30/2023"},
         depends_on_past=True,
         wait_for_downstream=True,
     )

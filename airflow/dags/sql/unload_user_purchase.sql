@@ -1,4 +1,4 @@
-
+-- dags/sql/unload_user_purchase.sql
 -- from user_purchase table grab data between dates
 -- turn it into csv file 
 COPY (
@@ -14,7 +14,7 @@ COPY (
        from user_purchase 
        where invoice_date
        between
-       {{params.begin_date}}
+       '{{params.begin_date}}'
        and 
-       {{params.end_date}}
+       '{{params.end_date}}'
 ) TO '{{ params.user_purchase }}' WITH (FORMAT CSV, HEADER);
