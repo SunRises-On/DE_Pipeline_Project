@@ -30,21 +30,22 @@ with dag:
         task_id="extract_user_purchase_data",
         #its in dag folder
         sql="sql/unload_user_purchase.sql",
-        #created postgres connection in Admin>
-        #Connection Type = Postgres
-        #inorder for docker ran in airflow to connect to localhost use
-        # host.docker.internal
-        #Host = host.docker.internal
-        #Schema = DE
-        #Login = postgres
-        #Password = password
-        #Port = 5432
         postgres_conn_id="postgres_local",
         params={"user_purchase": "/temp/user_purchase.csv","begin_date":"01/01/2023","end_date":"04/30/2023"},
         depends_on_past=True,
         wait_for_downstream=True,
     )
-
+    user_purchase_to_stage_data_lake = PythonOperator(
+        dag=dag,
+        task_id="user_purchase_to_stage_data_lake",
+        python_callable=_local_to_s3,
+        op_kwargs={
+            "file_name": "/opt/airflow/temp/user_purchase.csv",
+            "key": "stage/user_purchase/{{ ds }}/user_purchase.csv",
+            "bucket_name": BUCKET_NAME,
+            "remove_local": "true",
+        },
+    )
     to_raw_data_lake= PythonOperator(
         #dag: (Required)The DAG object to which the task belongs.
         dag=dag,
@@ -56,10 +57,6 @@ with dag:
         #passed to the python_callable function when the operator calls it.
         op_kwargs={
             #/opt/airflow/ <- basic base file path given in docker-compose.yaml
-            #create data folder in plugins
-            #/opt/airflow/plugins/data/ 
-            # create file name
-            #/opt/airflow/data/some_data.csv
             "file_name": "/opt/airflow/plugins/data/some_data.csv",
             # {{ ds }} = is airflow template reference to the
             # DAG run's logical date YYYY-MM-DD
@@ -67,15 +64,9 @@ with dag:
             "bucket_name": BUCKET_NAME,
         },
     )
-    # task2 = BashOperator(
-    #     task_id = "run_after_example",
-    #     bash_command="mkdir -p data && cd ..; cp /opt/***/file1.csv data"
-    # )
-    # task3 = PythonOperator(
-    #     task_id='run_last',
-    #     python_callable= ex_read_func
-    # )
+
  
-    extract_user_purchase_data>>to_raw_data_lake
+    extract_user_purchase_data>>user_purchase_to_stage_data_lake
+    #to_raw_data_lake
     # task1>>task2
     # task2>>task3
