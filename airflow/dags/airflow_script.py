@@ -11,7 +11,7 @@ from airflow.operators.python_operator import PythonOperator
 
 #Config 
 BUCKET_NAME = Variable.get("BUCKET")
-
+LOCAL_PATH = Variable.get("LOCAL_PATH")
 
 #DAG definition
 default_args = {'owner': 'airflow','start_date': days_ago(1)}
@@ -31,39 +31,40 @@ with dag:
         #its in dag folder
         sql="sql/unload_user_purchase.sql",
         postgres_conn_id="postgres_local",
-        params={"user_purchase": "/temp/user_purchase.csv","begin_date":"01/01/2023","end_date":"04/30/2023"},
-        depends_on_past=True,
-        wait_for_downstream=True,
+        #/tmp/user_purchase.csv
+        params={"user_purchase": LOCAL_PATH,"begin_date":"01/01/2023","end_date":"04/30/2023"},
+        #depends_on_past=True,
+        #wait_for_downstream=True,
     )
     user_purchase_to_stage_data_lake = PythonOperator(
         dag=dag,
         task_id="user_purchase_to_stage_data_lake",
         python_callable=_local_to_s3,
         op_kwargs={
-            "file_name": "/opt/airflow/temp/user_purchase.csv",
+            "file_name": "/opt/airflow/plugins/user_purchase.csv",
             "key": "stage/user_purchase/{{ ds }}/user_purchase.csv",
             "bucket_name": BUCKET_NAME,
             "remove_local": "true",
         },
     )
-    to_raw_data_lake= PythonOperator(
+ #   to_raw_data_lake= PythonOperator(
         #dag: (Required)The DAG object to which the task belongs.
-        dag=dag,
+#        dag=dag,
         #task_id: (Required)A unique identifier for the task.
-        task_id="to_raw_data_lake",
+ #       task_id="to_raw_data_lake",
         #python_callable: (Required)A Python function will be executed when the task is run.
-        python_callable=_local_to_s3,
+#        python_callable=_local_to_s3,
         #op_kwargs: A dictionary of keyword arguments that will be
         #passed to the python_callable function when the operator calls it.
-        op_kwargs={
+ #       op_kwargs={
             #/opt/airflow/ <- basic base file path given in docker-compose.yaml
-            "file_name": "/opt/airflow/plugins/data/some_data.csv",
+ #           "file_name": "/opt/airflow/plugins/data/some_data.csv",
             # {{ ds }} = is airflow template reference to the
             # DAG run's logical date YYYY-MM-DD
-            "key": "raw/some_data/{{ ds }}/some_data.csv",
-            "bucket_name": BUCKET_NAME,
-        },
-    )
+ #           "key": "raw/some_data/{{ ds }}/some_data.csv",
+#            "bucket_name": BUCKET_NAME,
+#        },
+ #   )
 
  
     extract_user_purchase_data>>user_purchase_to_stage_data_lake

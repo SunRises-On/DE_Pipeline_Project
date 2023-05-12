@@ -1,7 +1,7 @@
 -- dags/sql/unload_user_purchase.sql
 -- from user_purchase table grab data between dates
 -- turn it into csv file 
-COPY (
+copy (
        select 
        invoice_number,
        vendor_id,
