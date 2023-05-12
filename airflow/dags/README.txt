@@ -13,10 +13,11 @@ Password = password
 --------------------------------------------------------------------------------------------
 
 Directions to create variables 
+Admin>Variables
 
-BUCKET_NAME = "<aws bucket name>"
-LOCAL_PATH = ""C:\\Users\\<user>\\airflow_dags\\plugins\\user_purchase.csv""
-
+BUCKET_NAME = <aws bucket name>
+LOCAL_PATH = C:\\Users\\<user>\\airflow_dags\\plugins\\user_purchase.csv
+aws_default = aws://
 ----------------------------------------------------------------------------------------
 
 Since this is an airflow run from a docker in Windows 10. 
