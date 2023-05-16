@@ -2,9 +2,9 @@ import os
 import configparser
 from get_confi import get_file_path
 from connect_to_redshift import create_cursor
+from redshift_query import create_schema
 
-
-print('Get config file')
+print('Get config file from host computer')
 # r'config.ini'
 #get the absolute path
 
@@ -12,18 +12,25 @@ fn = 'config.ini'
 file_path = get_file_path(fn)
 print(f"file path = {file_path}")
 
-exit()
 print('Read config file')
 config = configparser.ConfigParser()
 
-config.read(file_path)
+configFilePath = str(file_path)
+print(f"{configFilePath}")
+config.read(configFilePath)
 
 print('Fetch parameters')
 user=config.get('aws','username')
 password=config.get('aws','password')
 host=config.get('aws','host')
 port=config.get('aws','port')
+port = int(port)
 database=config.get('aws','database')
+
+role=config.get('redshift','role')
+database=config.get('redshift','database')
+table=config.get('redshift','table')
+
 
 print('Connecting to Redshift instance')
 
@@ -31,4 +38,6 @@ print('Create a cursor object')
 cursor = create_cursor(host,database,port,user,password
 )
 
+print('Create schema if not exists.')
+create_schema(cursor, database, role)
 #print('Query a table')

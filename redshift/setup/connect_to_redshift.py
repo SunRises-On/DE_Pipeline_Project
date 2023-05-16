@@ -14,7 +14,10 @@ def create_cursor(host,database,port,user,password):
         user=user,
         password=password
     )
-
+    print("create cursor")
     cursor = conn.cursor()
+    print("cursor created")
 
+    print("enable autoconnect")
+    conn.autocommit = True
     return cursor
