@@ -23,8 +23,6 @@ print('Fetch parameters')
 user=config.get('aws','username')
 password=config.get('aws','password')
 host=config.get('aws','host')
-port=config.get('aws','port')
-port = int(port)
 database=config.get('aws','database')
 
 role=config.get('redshift','role')
@@ -35,6 +33,8 @@ schema=config.get('redshift','schema')
 bucket=config.get('s3','bucket')
 
 print('Connecting to Redshift instance')
+
+exit()
 
 print('Create a cursor object')
 print(f"database = {database}")

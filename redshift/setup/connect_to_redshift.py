@@ -3,7 +3,7 @@
 #pip install redshift_connector
 import redshift_connector
 
-def create_conn(host,database,port, user, password):
+def create_conn(host,database, user, password):
     print("create a connection")
     conn = redshift_connector.connect(
         host=host,
