@@ -34,12 +34,10 @@ bucket=config.get('s3','bucket')
 
 print('Connecting to Redshift instance')
 
-exit()
-
 print('Create a cursor object')
 print(f"database = {database}")
 
-conn = create_conn(host,database, port, user, password)
+conn = create_conn(host,database, user, password)
 cursor = create_cursor(conn)
 
 print('Create schema if not exists.')

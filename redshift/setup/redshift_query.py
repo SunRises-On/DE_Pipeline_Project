@@ -8,7 +8,6 @@ def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl):
     #cursor = drop_schema(cursor)
     #conn = db_commit(conn)
     
-
     cursor = create_schema(cursor, database, role, schema)
     conn = db_commit(conn)
 
@@ -16,16 +15,17 @@ def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl):
     cursor = print_external_schemas(cursor)
 
     #drop tbl if exists
+    conn.rollback() #make sure we aren't in a transaction
+    conn.autocommit = True #turn autocommit on as drop & create cannot be in transaction block
+    cursor = drop_tbl(cursor, schema, user_tbl)
+   # conn.autocommit = False
 
     #create table
-    #set autocommit to true to allow create external table
-    #make sure we're not in a transaction
-    conn.rollback()
-    conn.autocommit = True
     cursor = create_tbl(bucket, cursor, schema, user_tbl)
     conn.autocommit = False
 
     #print all tables ....
+    cursor = print_external_tbl(cursor,schema)
 
     print("close cursor.")
     cursor.close()
@@ -88,6 +88,31 @@ def db_commit(conn):
     
     return conn
 
+def drop_tbl(cursor, schema, user_tbl):
+
+    print("In drop_tbl")
+
+    query = f"DROP TABLE IF EXISTS {schema}.{user_tbl}"
+
+    try:
+        cursor.execute(query)
+    
+    except Exception as e:
+        print(e)
+
+    return cursor
+
+# Code - PARTITIONED BY (insert_date DATE)
+# Explanation -  partitions it by DATE with column name = insert_date
+# Doc - [ PARTITIONED BY (col_name data_type [, … ] )]
+
+# Code - TABLE PROPERTIES ('skip.header.line.count'='1')
+# Explanation - Most datasets (CSV files, Text files, etc)
+#               Have header rows inside the data, and loading them into Hive
+#               tables will result with null values. The 'skip.header.line.count' will
+#               prevent that.
+# Doc - [ TABLE PROPERTIES ( 'property_name'='property_value' [, ...] ) ]
+
 def create_tbl(bucket, cursor, schema, user_tbl):
 
     print("In create_tbl.")
@@ -103,17 +128,34 @@ def create_tbl(bucket, cursor, schema, user_tbl):
             total NUMERIC,
             customer_id INTEGER
         ) PARTITIONED BY (insert_date DATE)
-          ROW FORMAT DELIMITED FIELDS
-          TERMINATED BY ',' 
+          ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
           STORED AS TEXTFILE 
-          LOCATION
-          's3://{bucket}/stage/user_purchase/'
-          TABLE PROPERTIES
-          ('skip.header.line.count'='1');   
+          LOCATION 's3://{bucket}/stage/user_purchase/'
+          TABLE PROPERTIES ('skip.header.line.count'='1');   
     """
     try:
         cursor.execute(query)
     
+    except Exception as e:
+        print(e)
+
+    return cursor
+
+def print_external_tbl(cursor,schema):
+
+    print("Checking for external tables...")
+
+#select schemaname, tablename from svv_external_tables where schemaname = 'apg_tpch';
+    query = f"""SELECT schemaname, tablename 
+                FROM svv_external_tables
+                WHERE schemaname = '{schema}';"""
+
+    
+    cursor.execute(query)
+
+    try:
+        result: tuple = cursor.fetchall()
+        print(result)
     except Exception as e:
         print(e)
 
