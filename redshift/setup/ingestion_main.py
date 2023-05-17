@@ -1,7 +1,7 @@
 import os
 import configparser
 from get_confi import get_file_path
-from connect_to_redshift import create_cursor
+from connect_to_redshift import create_conn,create_cursor
 from redshift_query import create_schema
 
 print('Get config file from host computer')
@@ -28,16 +28,18 @@ port = int(port)
 database=config.get('aws','database')
 
 role=config.get('redshift','role')
-database=config.get('redshift','database')
+redshift_db=config.get('redshift','database')
 table=config.get('redshift','table')
 
 
 print('Connecting to Redshift instance')
 
 print('Create a cursor object')
-cursor = create_cursor(host,database,port,user,password
-)
+print(f"database = {database}")
+
+conn = create_conn(host,database, port, user, password)
+cursor = create_cursor(conn)
 
 print('Create schema if not exists.')
-create_schema(cursor, database, role)
+create_schema(conn, cursor, redshift_db, role)
 #print('Query a table')
