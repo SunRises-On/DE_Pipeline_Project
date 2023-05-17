@@ -2,7 +2,7 @@ import os
 import configparser
 from get_confi import get_file_path
 from connect_to_redshift import create_conn,create_cursor
-from redshift_query import create_schema
+from redshift_query import setup_rdshft
 
 print('Get config file from host computer')
 # r'config.ini'
@@ -29,8 +29,10 @@ database=config.get('aws','database')
 
 role=config.get('redshift','role')
 redshift_db=config.get('redshift','database')
-table=config.get('redshift','table')
+user_tbl=config.get('redshift','user_tbl')
+schema=config.get('redshift','schema')
 
+bucket=config.get('s3','bucket')
 
 print('Connecting to Redshift instance')
 
@@ -41,5 +43,5 @@ conn = create_conn(host,database, port, user, password)
 cursor = create_cursor(conn)
 
 print('Create schema if not exists.')
-create_schema(conn, cursor, redshift_db, role)
+setup_rdshft(bucket,conn, cursor, redshift_db, role, schema, user_tbl)
 #print('Query a table')
