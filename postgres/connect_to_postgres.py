@@ -2,17 +2,12 @@
 import psycopg2
 #pip install psycopg2
 
-conn = psycopg2.connect(
-    host="localhost",
-    port='5432',
-    database="DE",
-    user="postgres", 
-    password="password")
+
 
 def create_conn(database,host,password,port,user):
     
     print("Create connection.")
-    
+
     conn = psycopg2.connect(
         host=host,
         port=port,
@@ -20,5 +15,15 @@ def create_conn(database,host,password,port,user):
         user=user,
         password=password
     )
+    #set auto commit 
+    conn.autocommit = True
 
     return conn
+
+def create_cursor(conn):
+    #create a cursor object
+    print("Create cursor.")
+
+    cursor = conn.cursor()
+    
+    return cursor

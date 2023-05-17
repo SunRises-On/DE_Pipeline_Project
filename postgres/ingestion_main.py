@@ -1,6 +1,7 @@
 import configparser
-from 
+from connect_to_postgres import create_conn, create_cursor
 from restaurant_menu import McDonald_menu, Wingstop_menu, Taco_bell_menu
+from setup_db import print_tbl
 
 print("Read config file.")
 fn = 'config.ini'
@@ -18,4 +19,10 @@ password=config.get('postgres','password')
 
 print('Connect to database.')
 
-def create_conn(database,host,password,port,user):
+conn = create_conn(database,host,password,port,user)
+cursor = create_cursor(conn)
+
+print('Select all tables in schema public')
+cursor = print_tbl(cursor)
+
+print('Drop old table.')
