@@ -14,3 +14,9 @@ py populate_database.py
 To do:
 Clean up and add config pipeline for python file.  
 
+
+Abbreviations
+
+ran = range
+rand = random
+col = column

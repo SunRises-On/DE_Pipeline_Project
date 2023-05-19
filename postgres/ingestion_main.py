@@ -1,7 +1,7 @@
 import configparser
 from connect_to_postgres import create_conn, create_cursor
-from restaurant_menu import McDonald_menu, Wingstop_menu, Taco_bell_menu
-from setup_db import print_tbl
+from setup_db import print_tbl, delete_tbl_data
+from pop_db import populate
 
 print("Read config file.")
 fn = 'config.ini'
@@ -25,4 +25,13 @@ cursor = create_cursor(conn)
 print('Select all tables in schema public')
 cursor = print_tbl(cursor)
 
-print('Drop old table.')
+print('Delete all data from table')
+cursor = delete_tbl_data(cursor)
+
+print('Populate table.')
+cursor = populate(cursor)
+
+
+
+print('Close the connection.')
+conn.close()

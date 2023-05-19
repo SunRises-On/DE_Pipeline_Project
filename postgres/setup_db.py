@@ -8,10 +8,27 @@ def print_tbl(cursor):
     query="""SELECT table_name FROM information_schema.tables
        WHERE table_schema = 'public'"""
 
-    cursor.execute(query)
+    try:
+        cursor.execute(query)
+        for table in cursor.fetchall():
+            print(table)
+            
+    except Exception as e:
+        print(e)
 
-    #check if table is in database
-    for table in cur.fetchall():
-        print(table)
+    return cursor
+
+
+def delete_tbl_data(cursor):
+
+    print("Delete old data from table.")
+    #delete old table
+    query = """DELETE FROM user_purchase;
+    """
+    try:
+        cursor.execute(query)
+    except Exception as e:
+         print(e)
+
 
     return cursor

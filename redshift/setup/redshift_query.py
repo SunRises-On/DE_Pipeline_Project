@@ -69,9 +69,8 @@ def print_external_schemas(cursor):
 
     query = "SELECT * FROM svv_external_schemas;"
     
-    cursor.execute(query)
-
     try:
+        cursor.execute(query)
         result: tuple = cursor.fetchall()
         print(result)
     except Exception as e:
