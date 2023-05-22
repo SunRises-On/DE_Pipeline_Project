@@ -10,15 +10,17 @@ Schema = DE # Your schema
 Login = postgres
 Password = password
 
---------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 
-#### Airflow Create Variables
-##### How to:
-Admin>Variables
+### Airflow Create Variables
+#### How to:
+##### Admin>Variables
 
- BUCKET_NAME = <aws bucket name>
- LOCAL_PATH = C:\\Users\\<user>\\<airflow_folder>\\plugins\\user_purchase.csv
- aws_default = aws://
+#### Create these variables : 
+
+##### BUCKET_NAME = < S3 bucket name>
+##### LOCAL_PATH = C:\\Users\\<user name>\\<airflow_folder>\\plugins\\user_purchase.csv
+##### aws_default = aws://
 ----------------------------------------------------------------------------------------
 
 Since this is an airflow run from a docker in Windows 10. 
