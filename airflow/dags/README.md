@@ -14,7 +14,10 @@ Password = password
 
 ### Airflow Create Variables
 #### How to:
-##### Admin>Variables
+1. Go to Menu.
+2. Click on Admin.
+3. Click on Variable.
+4. Create new variable.
 
 #### Create these variables : 
 
