@@ -10,15 +10,22 @@
 
 ### Connect to local postgreSQL server.
 #### Fill out connection information :
+
 Connection Id = postgres_local
+
 Connection Type = Postgres
+
 ("Host will change if you aren't running airism in docker.
 Host = host.docker.internal
+
 Schema = DE
+
 Login = postgres
+
 Password = password
+
 Port = 5432
-Directions to connect to local postgreSQL server:
+
 
 
 -----------------------------------------------------------------------------------------
