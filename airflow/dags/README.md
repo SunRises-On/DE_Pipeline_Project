@@ -72,3 +72,8 @@ Or postgres will not be able to write to it.
 6. Then, make sure all the checkboxes of "Permissions for Everyone" are selected by 
     just ticking the "Full Control" check box to allow the control access without any restriction.
 7. Then, Apply and OK all the tabs to apply all the changes done.
+           
+### Requirements
+Airflow:
+1. pip install apache-airflow-providers-amazon
+         
