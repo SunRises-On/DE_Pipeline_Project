@@ -1,14 +1,25 @@
-Directions to connect to local postgreSQL server:
+### Airflow Create Connection
+#### How to:
+1. Go to Menu.
+2. Cick on Admin.
+3. Click on Connections.
+4. Create new connectino.
 
-# In the Airflow header go to Admin>Connection
-# Create new connection using these parameters
+#### Create these connections:
+-----------------------------------------------------------------------------------------
 
+### Connect to local postgreSQL server.
+#### Fill out connection information :
+Connection Id = postgres_local
 Connection Type = Postgres
-# inorder for docker ran in airflow to connect to localhost use host.docker.internal
+("Host will change if you aren't running airism in docker.
 Host = host.docker.internal
-Schema = DE # Your schema
+Schema = DE
 Login = postgres
 Password = password
+Port = 5432
+Directions to connect to local postgreSQL server:
+
 
 -----------------------------------------------------------------------------------------
 
