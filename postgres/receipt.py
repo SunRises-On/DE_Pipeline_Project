@@ -6,8 +6,9 @@ class Receipt:
     def __init__(self, items = [], tax = 0):
         self.items = items
         self.tax = tax
-        self.subtotal = self.calc_subtotal
-        self.total = self.calc_total
+        self.subtotal = 0
+        self.total = 0
+        
 
     def calc_subtotal(self):
         #Turn into Decimal type object
@@ -17,7 +18,7 @@ class Receipt:
             price = Decimal(item.price)
             self.subtotal += price
         #round to 2 decimal places
-        self.subtotal = round(self.total, 2)
+        self.subtotal = round(self.subtotal, 2)
 
     def calc_total(self):
 

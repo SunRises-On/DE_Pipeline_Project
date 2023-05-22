@@ -48,7 +48,7 @@ def get_items(vendor_id, tup, vendor_dict):
     menu = vendor_dict[vendor_id] #get menu dictionary
 
     for x in range(items_ordered):
-        index = menu(index)
+        index = get_Item_Index(menu)
         name = list(menu)[index] #key
         price = list(menu.values())[index] #value
 

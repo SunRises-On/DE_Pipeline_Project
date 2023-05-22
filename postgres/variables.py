@@ -13,7 +13,9 @@ delivery_list = ['pickup', 'delivery']
 country_code_iso3 = 'USA'
 RECORDS = 12001
 REC_PER_DATE = 100
-
+YEAR = 2023
+MONTH = 1 
+DAY = 1
 vendor_dict = { 1: McDonald_menu,
              2: Wingstop_menu,
              3: Taco_bell_menu}
@@ -25,7 +27,6 @@ tax_list = [0,.029,.04,.04225,.0445,.045,.0475,.05,.053,.055,.056,.0575,.06,.061
 
 col_names="vendor_id, delivery_method, menu_items, invoice_date, tax, total, country_code_iso3, customer_id"
 
-date_obj = create_date_obj(2023,1,1)
 
 
 vendor_id_ran = (1,4) # vendor id range

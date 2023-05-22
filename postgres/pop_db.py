@@ -1,7 +1,7 @@
 from variables import delivery_list, country_code_iso3, RECORDS, REC_PER_DATE, vendor_dict, customer_id_list, tax_list\
-, column_names, vendor_id_ran, delivery_ran, item_ran, customer_id_ran \
+, col_names, vendor_id_ran, delivery_ran, item_ran, customer_id_ran, tax_ran, create_date_obj, YEAR, DAY, MONTH \
 
-from util import increment_date, get_csv_from_dict, get_delivery_method, get_items, get_rand_ran, tax_ran, get_tax\
+from util import increment_date, get_csv_from_dict, get_delivery_method, get_items, get_rand_ran, get_tax\
 ,get_customer_id
 
 from item import Item
@@ -20,6 +20,8 @@ def insert(column_names, column_values, cur):
         print(e)
 
 def populate(cursor):
+    date_obj = create_date_obj(YEAR,MONTH, DAY) 
+
     for i in range(1,RECORDS):
     
         #get vendor id
@@ -33,6 +35,7 @@ def populate(cursor):
         items = get_items(vendor_id, item_ran, vendor_dict)
         csv_items = get_csv_from_dict(items)
 
+
         #date for order
         if((i%REC_PER_DATE) == 0):
             date_obj = increment_date(date_obj)
@@ -42,6 +45,8 @@ def populate(cursor):
     
         #get receipt total 
         receipt = Receipt(items, tax)
+        receipt.calc_subtotal()
+        receipt.calc_total()
         total = receipt.total
     
         #get customer id number
@@ -50,6 +55,6 @@ def populate(cursor):
         column_values = f""" {vendor_id} , '{delivery_method}' ,
           '{csv_items}' ,'{date_obj}' ,{tax} ,{total} ,'{country_code_iso3}', {customer_id}"""
 
-        insert(column_names, column_values, cursor)
+        insert(col_names, column_values, cursor)
 
     return cursor

@@ -2,6 +2,7 @@ import configparser
 from connect_to_postgres import connect
 from setup_db import print_tbl, delete_tbl_data
 from pop_db import populate
+from test_db import get_last_row, get_tbl_count
 
 print("Read config file.")
 fn = 'config.ini'
@@ -13,6 +14,7 @@ print('Fetch parameters')
 
 host=config.get('postgres','host')
 port=config.get('postgres','port')
+port= int(port)
 database=config.get('postgres','database')
 user=config.get('postgres','user')
 password=config.get('postgres','password')
@@ -30,7 +32,11 @@ cursor = delete_tbl_data(cursor)
 print('Populate table.')
 cursor = populate(cursor)
 
+print('Get last row.')
+cursor = get_last_row(cursor)
 
+print('Get row count.')
+cursor = get_tbl_count(cursor)
 
 print('Close the connection.')
 conn.close()
