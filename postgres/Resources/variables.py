@@ -1,5 +1,5 @@
 #where I keep all my fake data variables
-from restaurant_menu import McDonald_menu, Wingstop_menu, Taco_bell_menu
+from Resources.restaurant_menu import McDonald_menu, Wingstop_menu, Taco_bell_menu
 #Python imports
 import datetime
 

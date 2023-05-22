@@ -1,11 +1,10 @@
-from variables import delivery_list, country_code_iso3, RECORDS, REC_PER_DATE, vendor_dict, customer_id_list, tax_list\
+from Resources.variables import delivery_list, country_code_iso3, RECORDS, REC_PER_DATE, vendor_dict, customer_id_list, tax_list\
 , col_names, vendor_id_ran, delivery_ran, item_ran, customer_id_ran, tax_ran, create_date_obj, YEAR, DAY, MONTH \
 
-from util import increment_date, get_csv_from_dict, get_delivery_method, get_items, get_rand_ran, get_tax\
+from Resources.util import increment_date, get_csv_from_dict, get_delivery_method, get_items, get_rand_ran, get_tax\
 ,get_customer_id
 
-from item import Item
-from receipt import Receipt
+from Classes.receipt import Receipt
 
 def insert(column_names, column_values, cur):
     query = f"""INSERT INTO user_purchase

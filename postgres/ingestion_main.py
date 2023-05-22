@@ -1,8 +1,6 @@
 import configparser
-from connect_to_postgres import connect
-from setup_db import print_tbl, delete_tbl_data
+from query_db import print_tbl, delete_tbl_data, get_last_row, get_tbl_count, connect
 from pop_db import populate
-from test_db import get_last_row, get_tbl_count
 
 print("Read config file.")
 fn = 'config.ini'

@@ -2,7 +2,7 @@
 import datetime
 #pip install psycopg2
 import random
-from item import Item
+from Classes.item import Item
 ##################################################################################
 # Summary: Function for getting a random number from a range.
 #################################################################################
