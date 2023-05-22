@@ -22,3 +22,21 @@ def _local_to_s3(
     if remove_local:
         if os.path.isfile(file_name):
             os.remove(file_name)
+
+def run_redshift_external_query(qry: str) -> None:
+    # postgres_conn_id – The postgres conn id reference to a specific postgres database.
+    rs_hook = PostgresHook(postgres_conn_id="redshift_default")
+    
+    #Establishes a connection to a postgres database
+    rs_conn = rs_hook.get_conn() 
+    
+    # No transaction is started when commands are executed and no commit() or rollback()
+    # is required. Some PostgreSQL commands such as CREATE DATABASE can't run
+    rs_conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+    
+    rs_cursor = rs_conn.cursor()
+    rs_cursor.execute(qry)
+    rs_cursor.close()
+    rs_conn.commit()
+    
+    
