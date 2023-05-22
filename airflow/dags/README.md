@@ -12,7 +12,8 @@ Password = password
 
 --------------------------------------------------------------------------------------------
 
-Directions to create variables 
+#### Airflow Create Variables
+##### How to:
 Admin>Variables
 
 BUCKET_NAME = <aws bucket name>
