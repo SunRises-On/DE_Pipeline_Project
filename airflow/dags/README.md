@@ -54,13 +54,13 @@ Connection Type: Amazon Redshift
 
 (for example, redshift-cluster-1.123456789.us-west-1.redshift.amazonaws.com)
 
-Host: <your-redshift-endpoint> 
+Host: <your_redshift_endpoint> 
            
-Schema: <your-redshift-database> (for example, dev, test, prod, etc.)
+Schema: <your_redshift_database> (for example, dev, test, prod, etc.)
            
-Login: <your-redshift-username> (for example, awsuser)
+Login: <your_redshift_username> (for example, awsuser)
            
-Password: <your-redshift-password>
+Password: <your_redshift_password>
 
 -----------------------------------------------------------------------------------------
 
