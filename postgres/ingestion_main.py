@@ -1,5 +1,5 @@
 import configparser
-from connect_to_postgres import create_conn, create_cursor
+from connect_to_postgres import connect
 from setup_db import print_tbl, delete_tbl_data
 from pop_db import populate
 
@@ -19,8 +19,7 @@ password=config.get('postgres','password')
 
 print('Connect to database.')
 
-conn = create_conn(database,host,password,port,user)
-cursor = create_cursor(conn)
+conn, cursor = connect(database,host,password,port,user)
 
 print('Select all tables in schema public')
 cursor = print_tbl(cursor)

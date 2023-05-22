@@ -4,7 +4,7 @@ import psycopg2
 
 
 
-def create_conn(database,host,password,port,user):
+def connect(database,host,password,port,user):
     
     print("Create connection.")
 
@@ -18,12 +18,8 @@ def create_conn(database,host,password,port,user):
     #set auto commit 
     conn.autocommit = True
 
-    return conn
-
-def create_cursor(conn):
-    #create a cursor object
     print("Create cursor.")
 
     cursor = conn.cursor()
-    
-    return cursor
+
+    return conn, cursor
