@@ -74,6 +74,17 @@ Or postgres will not be able to write to it.
 7. Then, Apply and OK all the tabs to apply all the changes done.
            
 ### Requirements
+           
 Airflow:
 1. pip install apache-airflow-providers-amazon
-         
+           
+S3 Bucket:
+#### Permissions
+- redshift:DescribeClusters
+- redshift:PauseCluster
+- redshift:ResumeCluster
+ 
+Redshift cluster:
+#### Permissions
+           
+           
