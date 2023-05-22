@@ -9,19 +9,7 @@ import psycopg2
 
 # in your create s3 bucket terminal
 # pip install 'apache-airflow[amazon]'
-#set up airflow hook
-# Admin>Connections
-#  pip install 'apache-airflow[amazon]'
-# select '+' 
-# Connection Id = S3_conn
-# Connectin Type = Amazon Web Services
-# AWS Acces Key ID
-# AWS Secret Access Key
-# extra = {
-#  "aws_access_key_id": <put here>,
-#  "aws_secret_access_key": <put here>,
-#  "region_name": <put here>
-#}
+
 
 from airflow.hooks.S3_hook import S3Hook
 
