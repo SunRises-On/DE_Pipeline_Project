@@ -15,7 +15,8 @@ Connection Id = postgres_local
 
 Connection Type = Postgres
 
-("Host will change if you aren't running airism in docker.
+("Host will change if you aren't running airism in docker.)
+
 Host = host.docker.internal
 
 Schema = DE
@@ -35,9 +36,9 @@ Connection Id = S3_conn
 
 Connection Type = Amazon Web Services
 
-AWS Access Key ID = <your access key>
+AWS Access Key ID = <your_access_key>
 
-AWS Secret Access Key = <your secret access key>
+AWS Secret Access Key = <your_secret_access_key>
 
 Extra =  { "aws_access_key_id": "your_access_key",
            "aws_secret_access_key": "your_secret_access_key",
