@@ -47,6 +47,17 @@ with dag:
             "remove_local": "true",
         },
     )
+    user_purchase_stage_data_lake_to_stage_tbl = PythonOperator(
+        dag=dag,
+        task_id="user_purchase_stage_data_lake_to_stage_tbl",
+        python_callable= run_redshift_external_query,
+        op_kwargs={ "qry": "alter table myspectrum_schema.user_purchase_staging add  \
+                            if not exists partition(insert_date='{{ ds }}') \
+                            
+                            + BUCKET_NAME
+                            + "/stage/user_purchase/{{ ds }}'",
+        },
+    )
  #   to_raw_data_lake= PythonOperator(
         #dag: (Required)The DAG object to which the task belongs.
 #        dag=dag,
@@ -68,6 +79,7 @@ with dag:
 
  
     extract_user_purchase_data>>user_purchase_to_stage_data_lake
+    user_purchase_to_stage_data_lake>>user_purchase_stage_data_lake_to_stage_tbl
     #to_raw_data_lake
     # task1>>task2
     # task2>>task3
