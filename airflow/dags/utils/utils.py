@@ -5,12 +5,10 @@ import os
 # pip install psycopg2-binary
 import psycopg2
 
-
-
 # in your create s3 bucket terminal
 # pip install 'apache-airflow[amazon]'
 
-
+from airflow.hooks.postgres_hook import PostgresHook
 from airflow.hooks.S3_hook import S3Hook
 
 def _local_to_s3(
