@@ -30,7 +30,7 @@ Port = 5432
 -----------------------------------------------------------------------------------------
 
 ### Connect to S3 bucket 
-#### Fill out connection information 
+#### Fill out connection information :
 
 Connection Id = S3_conn
 
@@ -43,6 +43,24 @@ AWS Secret Access Key = <your_secret_access_key>
 Extra =  { "aws_access_key_id": "your_access_key",
            "aws_secret_access_key": "your_secret_access_key",
            "region_name" : "your region" }
+
+----------------------------------------------------------------------------------------
+### Connect to Redshift serverless
+#### Fill out connection information :
+
+Connection ID: redshift_default
+
+Connection Type: Amazon Redshift
+
+(for example, redshift-cluster-1.123456789.us-west-1.redshift.amazonaws.com)
+
+Host: <your-redshift-endpoint> 
+           
+Schema: <your-redshift-database> (for example, dev, test, prod, etc.)
+           
+Login: <your-redshift-username> (for example, awsuser)
+           
+Password: <your-redshift-password>
 
 -----------------------------------------------------------------------------------------
 
