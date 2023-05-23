@@ -51,7 +51,9 @@ with dag:
         dag=dag,
         task_id="user_purchase_stage_data_lake_to_stage_tbl",
         python_callable= run_redshift_external_query,
-        op_kwargs={ "qry": "alter table myspectrum_schema.user_purchase_staging add if not exists partition(insert_date='{{ ds }}') " \
+        op_kwargs={ "qry": """alter table myspectrum_schema.user_purchase_staging 
+                add if not exists partition(insert_date='{{ ds }}') 
+                LOCATION 's3://"""
                             
                             + BUCKET_NAME
                             + "/stage/user_purchase/{{ ds }}'",
