@@ -1,5 +1,5 @@
 #user imports
-from utils.utils import _local_to_s3
+from utils.utils import _local_to_s3, run_redshift_external_query
 
 #airflow imports 
 from airflow.models import DAG
@@ -52,7 +52,7 @@ with dag:
         task_id="user_purchase_stage_data_lake_to_stage_tbl",
         python_callable= run_redshift_external_query,
         op_kwargs={ "qry": "alter table myspectrum_schema.user_purchase_staging add  \
-                            if not exists partition(insert_date='{{ ds }}') \
+                            if not exists partition(insert_date='{{ ds }}')" \
                             
                             + BUCKET_NAME
                             + "/stage/user_purchase/{{ ds }}'",
