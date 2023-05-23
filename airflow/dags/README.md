@@ -62,6 +62,8 @@ Login: <your_redshift_username> (for example, awsuser)
            
 Password: <your_redshift_password>
 
+Port: 5439
+
 -----------------------------------------------------------------------------------------
 
 ### Airflow Create Variables
