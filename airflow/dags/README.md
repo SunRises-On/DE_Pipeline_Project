@@ -3,7 +3,7 @@
 1. Go to Menu.
 2. Cick on Admin.
 3. Click on Connections.
-4. Create new connectino.
+4. Create new connection.
 
 #### Create these connections:
 -----------------------------------------------------------------------------------------
