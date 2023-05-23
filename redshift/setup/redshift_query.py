@@ -5,8 +5,8 @@ import redshift_connector
 
 def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl):
 
-    #cursor = drop_schema(cursor)
-    #conn = db_commit(conn)
+    cursor = drop_schema(cursor, schema)
+    conn = db_commit(conn)
     
     cursor = create_schema(cursor, database, role, schema)
     conn = db_commit(conn)
