@@ -10,10 +10,10 @@
 7. Run the second task.
 8. The second task, exports the file to a S3 bucket.
 9. Setup Redshift.
+10. Third task add CSV to Redshift postgres table.
 
 
 ### Tasks To Do
-1. Export file from S3 bucket to Redshift.
-2. Query Redshift.
-3. Export results to local.
-4. Create Tableau visualization.
+1. Query Redshift.
+2. Export results to local.
+3. Create Tableau visualization.
