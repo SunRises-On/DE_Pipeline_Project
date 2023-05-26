@@ -3,7 +3,7 @@ import redshift_connector
 
 
 
-def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl):
+def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl, review_tbl):
 
     cursor = drop_schema(cursor, schema)
     conn = db_commit(conn)
@@ -18,10 +18,15 @@ def setup_rdshft(bucket, conn, cursor, database, role, schema, user_tbl):
     conn.rollback() #make sure we aren't in a transaction
     conn.autocommit = True #turn autocommit on as drop & create cannot be in transaction block
     cursor = drop_tbl(cursor, schema, user_tbl)
-   # conn.autocommit = False
 
     #create table
-    cursor = create_tbl(bucket, cursor, schema, user_tbl)
+    cursor = create_tbl_user_purchase_staging(bucket, cursor, schema, user_tbl)
+
+    #drop tbl if exists
+    cursor = drop_tbl(cursor, schema, review_tbl)
+
+    #create table
+    cursor = create_tbl_classified_order_review(bucket, cursor, review_tbl, schema)
     conn.autocommit = False
 
     #print all tables ....
@@ -87,11 +92,11 @@ def db_commit(conn):
     
     return conn
 
-def drop_tbl(cursor, schema, user_tbl):
+def drop_tbl(cursor, schema, tbl):
 
     print("In drop_tbl")
 
-    query = f"DROP TABLE IF EXISTS {schema}.{user_tbl}"
+    query = f"DROP TABLE IF EXISTS {schema}.{tbl}"
 
     try:
         cursor.execute(query)
@@ -112,7 +117,7 @@ def drop_tbl(cursor, schema, user_tbl):
 #               prevent that.
 # Doc - [ TABLE PROPERTIES ( 'property_name'='property_value' [, ...] ) ]
 
-def create_tbl(bucket, cursor, schema, user_tbl):
+def create_tbl_user_purchase_staging(bucket, cursor, schema, user_tbl):
 
     print("In create_tbl.")
     # schema_name = myspectrum_schema
@@ -131,6 +136,26 @@ def create_tbl(bucket, cursor, schema, user_tbl):
           STORED AS TEXTFILE 
           LOCATION 's3://{bucket}/stage/user_purchase/'
           TABLE PROPERTIES ('skip.header.line.count'='1');   
+    """
+    try:
+        cursor.execute(query)
+    
+    except Exception as e:
+        print(e)
+
+    return cursor
+
+def create_tbl_classified_order_review(bucket, cursor, review_tbl, schema):
+
+    print("In create_tbl.")
+    # schema_name = myspectrum_schema
+    query = f"""CREATE EXTERNAL TABLE
+        {schema}.{review_tbl}(
+            customer_id INTEGER,
+            positive_review boolean,
+            insert_date VARCHAR(12)
+        ) STORED AS PARQUET 
+          LOCATION 's3://{bucket}/stage/order_review/'
     """
     try:
         cursor.execute(query)
